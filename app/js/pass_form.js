@@ -48,7 +48,7 @@ class PasswordField extends React.Component {
       otherPassword = (
         <FormGroup controlId="password1">
           <ControlLabel>Password</ControlLabel>
-          <FormControl type="password1" placeholder="Master password" onChange={this.password1Changed.bind(this)}/>
+          <FormControl type="password" placeholder="Repeat password" onChange={this.password1Changed.bind(this)}/>
         </FormGroup>
       );
     }

@@ -40,31 +40,32 @@ export class PasswordHasher {
 
   special(entropy, maxLength) {
     return this.bases.getSpecial.then((base) => {
-      return entropy.selectFromAll(base, maxLength);
+      return entropy.selectFromAll(base, maxLength, true);
     });
   }
 
   alphaNum(entropy, maxLength) {
     return this.bases.getAlphaNum.then((base) => {
-      return entropy.selectFromAll(base, maxLength);
+      return entropy.selectFromAll(base, maxLength, true);
     });
   }
 
   numbers(entropy, maxLength) {
     return this.bases.getNumbers.then((base) => {
-      return entropy.selectFromAll(base, maxLength);
+      return entropy.selectFromAll(base, maxLength, true);
     });
   }
 
   words(entropy, maxLength) {
     return this.bases.getWords.then((base) => {
-      return entropy.selectFromAll(base, maxLength);
+      return entropy.selectFromAll(base, maxLength, false);
     });
   }
 
   hexidec(entropy, maxLength) {
     return this.bases.getHex.then((base) => {
-      return entropy.selectFromAll(base, maxLength);
+      var result = entropy.selectFromAll(base, 512, true);
+      return maxLength ? result.substring(0, maxLength) : result;
     });
   }
 }
@@ -102,7 +103,7 @@ class BaseConstants {
     this.getHex = makeLazy(() => {
       var result = [];
       for(var i = 0; i < 10; i++) {
-        result.push(i.toString)
+        result.push(i.toString());
       }
       for(var i = 'a'.charCodeAt(0); i <= 'f'.charCodeAt(0); i++) {
         result.push(String.fromCharCode(i));
@@ -132,10 +133,15 @@ export class Entropy {
     return arr[result.remainder];
   }
 
-  selectFromAll(arr, leng) {
+  selectFromAll(arr, leng, reverse) {
     var result = '';
     while(!this.isEmpty) {
-      var temp = result + this.selectFrom(arr);
+      if (reverse) {
+        var temp = this.selectFrom(arr) + result;
+      }
+      else {
+        var temp = result + this.selectFrom(arr);
+      }
       if (leng != null && temp.length > leng) {
         return result;
       }
