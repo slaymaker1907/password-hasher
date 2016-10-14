@@ -1,7 +1,8 @@
 import {hashPassword, PasswordHasher, defaultSalt, Entropy} from "./password.js";
 import ReactDOM from "react-dom";
 import React from "react";
-import {Form, FormGroup, ControlLabel, FormControl, Checkbox, Panel, Alert, Row, Col} from "react-bootstrap";
+import {Form, FormGroup, ControlLabel, FormControl, Checkbox, Panel, Alert, Row, Col, Button} from "react-bootstrap";
+import Clipboard from "react-clipboard.js";
 
 class PasswordField extends React.Component {
   constructor(props) {
@@ -181,7 +182,8 @@ export default class HasherControl extends React.Component {
           <Row>
             <Col xs={12}>
               <Panel header={outTitle} bsStyle="success">
-                <p>{this.state.finalHash.val}</p>
+                <p id="hashedPassword">{this.state.finalHash.val}</p>
+                <Clipboard data-clipboard-text={this.state.finalHash.val} className="btn btn-default">Copy to clipboard.</Clipboard>
               </Panel>
               <Panel header={entropyTitle} bsStyle="info">
                 <p>{this.state.finalHash.entropy}</p>
