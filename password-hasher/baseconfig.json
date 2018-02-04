@@ -1,0 +1,24 @@
+{
+	"version": "2.2.1",
+	"compilerOptions": {
+		"target": "es6",
+		"lib": ["DOM", "ES6", "DOM.Iterable", "ScriptHost"],
+		"module": "AMD",
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"removeComments": true,
+		"pretty": true,
+		"alwaysStrict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitReturns": true,
+		"noImplicitAny": true,
+		"noImplicitThis": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"strictNullChecks": true,
+		"skipLibCheck": false,
+		"jsx": "react"
+	}
+}
