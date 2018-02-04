@@ -67,6 +67,7 @@ function PasswordHasher(props: PasswordProps) {
     const password = props.showPassword ? props.output : props.output.replace(/./g, "*");
     const passMess = props.showPassword ? "Hide password" : "Show password";
     const selectOptions = props.ranges.map(range => <MenuItem value={range} primaryText={range.name} />);
+    const DumbTypeChecker: any = RaisedButton; // Necessary to set id property.
     return (
         <div id="hasher">
             <div id="input-fields">
@@ -79,7 +80,7 @@ function PasswordHasher(props: PasswordProps) {
             </SelectField>
             <div id="output">
                 {OutputDisplay("Output", password)}
-                <RaisedButton primary data-clipboard-text={props.output} label="Copy to clipboard" />
+                <DumbTypeChecker id="copy-password" primary data-clipboard-text={props.output} label="Copy to clipboard" />
                 <RaisedButton secondary label={passMess} onClick={props.showHidePassword} />
                 {OutputDisplay("Output Size", props.outputSize)}
                 {OutputDisplay("Entropy", props.entropy)}

@@ -87,7 +87,8 @@ export const ranges = getWordRange().then(wordRange => {
     ];
 });
 
-const worker = new Worker("worker.js");
+declare var process: any;
+const worker = process.env.NODE_ENV === "production" ? new Worker("worker.js") : new Worker("build/worker.js");
 let workerLocked = false;
 
 function withWorker<T>(func: (worker: Worker) => T): Promise<T> {

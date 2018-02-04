@@ -14,9 +14,8 @@ module.exports = Merge(config, {
             NODE_ENV: "production"
         }),
         new UglifyJSPlugin({
-            parallel: {
-                cache: true
-            },
+            cache: true,
+            parallel: true,
             sourceMap: true,
             uglifyOptions: {
                 mangle: true,
