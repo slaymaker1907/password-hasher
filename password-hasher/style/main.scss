@@ -1,5 +1,8 @@
 #hasher {
-    max-width: 75ch;
+    // max-width: 75ch;
+    width: 75ch;
+    max-width: 100%;
+    box-sizing: border-box;
     font-size: 1.1em;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin: auto;
@@ -7,9 +10,12 @@
         display: flex;
         flex-wrap: wrap;
         width: 100%;
+        overflow-y: hidden;
 
-        * {
-            flex: 1;
+        > * {
+            max-width: 100%;
+            flex: 1 0 auto;
+            display: block;
         }
     }
 
@@ -31,10 +37,23 @@
         display: grid;
         grid-template-columns: auto 1fr;
         grid-gap: 0.2em 2em;
+        width: 100%;
+
+        div.data {
+            overflow-wrap: break-word;
+            min-width: 0;
+        }
+
+        .output-button {
+            font-size: 0.9em;
+            width: 100%;
+            > div {
+                width: 100%;
+            }
+        }
 
         button {
-            font-size: 0.9em;
-            width: 20ch;
+            width: 100%;
         }
     }
 
