@@ -104,7 +104,7 @@ async function withWorker<T>(func: (worker: Worker) => Promise<T>): Promise<T> {
 
     workerLocked = true;
     try {
-        return await func(worker)
+        return await func(worker);
     } finally {
         workerLocked = false;
     }

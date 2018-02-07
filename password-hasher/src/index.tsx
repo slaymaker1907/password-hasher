@@ -68,10 +68,11 @@ function PasswordHasher(props: PasswordProps) {
     const passMess = props.showPassword ? "Hide password" : "Show password";
     const selectOptions = props.ranges.map(range => <MenuItem value={range} primaryText={range.name} />);
     const DumbTypeChecker: any = RaisedButton; // Necessary to set id property.
+    const passwordType = props.showPassword ? "text" : "password";
     return (
         <div id="hasher">
             <div id="input-fields">
-                {Input("Password", props.password, passChange, "password")}
+                {Input("Password", props.password, passChange, passwordType)}
                 {Input("Identifier", props.passwordId, idChange)}
                 {Input("Size Limit", sizeLimit, sizeChange, "number")}
             </div>
