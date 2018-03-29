@@ -91,27 +91,28 @@ declare var process: any;
 const worker = process.env.NODE_ENV === "production" ? new Worker("worker.js") : new Worker("build/worker.js");
 let workerLocked = false;
 
-function withWorker<T>(func: (worker: Worker) => T): Promise<T> {
-    const tryGetLock = (resolve: (arg: T) => void, reject: (err: any) => void) => {
-        if (workerLocked) {
-            setTimeout(tryGetLock, 10);
-        } else {
-            workerLocked = true;
-            try {
-                resolve(func(worker));
-            } catch (err) {
-                reject(err);
-            } finally {
-                workerLocked = false;
-            }
-        }
-    };
-    return new Promise<T>(tryGetLock);
+function sleepPromise(time: number): Promise<void> {
+    return new Promise<void>((resolve) => {
+        setTimeout(resolve, time);
+    });
+}
+
+async function withWorker<T>(func: (worker: Worker) => Promise<T>): Promise<T> {
+    while (workerLocked) {
+        await sleepPromise(10);
+    }
+
+    workerLocked = true;
+    try {
+        return await func(worker);
+    } finally {
+        workerLocked = false;
+    }
 }
 
 function scryptProm(password: string, salt: string, options: ScryptOptions): Promise<string> {
-    return new Promise<string>(async resolve => {
-        withWorker(worker => {
+    return withWorker(worker => {
+        const result = new Promise<string>(resolve => {
             worker.onmessage = e => resolve(e.data);
             worker.postMessage({
                 password,
@@ -119,6 +120,8 @@ function scryptProm(password: string, salt: string, options: ScryptOptions): Pro
                 options
             });
         });
+
+        return result;
     });
 }
 

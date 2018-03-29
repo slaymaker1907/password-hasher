@@ -62,7 +62,11 @@ interface RangeAction extends Action {
     type: ActionType.Range;
 }
 
+let changePasswordId = 0;
 export const changePassword = (password: string, id: string) => async (dispatch: Dispatch<State>) => {
+    changePasswordId++;
+    const myId = changePasswordId;
+
     const result: ComputedAction = {
         payload: {
             generated: bigInt(0),
@@ -72,16 +76,24 @@ export const changePassword = (password: string, id: string) => async (dispatch:
         type: ActionType.Computed
     };
     dispatch(result);
-    const generated = await hashPassword(id, password);
-    const nextResult = {
-        ...result,
-        payload: {
-            ...result.payload,
-            generated
+    try {
+        const generated = await hashPassword(id, password);
+        if (changePasswordId !== myId) {
+            // Early return since our result has been invalidated.
+            return;
         }
-    };
-    localStorage.setItem(STORAGE_KEY, password);
-    dispatch(nextResult);
+        const nextResult = {
+            ...result,
+            payload: {
+                ...result.payload,
+                generated
+            }
+        };
+        localStorage.setItem(STORAGE_KEY, password);
+        dispatch(nextResult);
+    } catch (err) {
+        console.error(`Could not compute password: ${err}`);
+    }
 };
 
 export const changeRange = (range: Range) => {
@@ -163,7 +175,7 @@ export async function makeStore() {
     const rootReducer = composeReducers(computeReducer, rangeReducer, sizeReducer, displayPasswordReducer);
     const composer = process.env === "production" ? compose : composeWithDevTools;
     const store = createStore(rootReducer, initial, composer(applyMiddleware(ReduxThunk)));
-    store.dispatch(changePassword("", ""));
+    store.dispatch(changePassword(password, ""));
     return store;
 }
 
