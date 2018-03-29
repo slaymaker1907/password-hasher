@@ -5,6 +5,7 @@ import { createSelector } from "reselect";
 import { BigInteger } from "big-integer";
 import bigInt = require("big-integer");
 import { composeWithDevTools } from "redux-devtools-extension";
+import * as _ from "lodash";
 
 declare const process: {
     env?: string;
@@ -16,6 +17,8 @@ export enum ActionType {
     Size = "SIZE",
     DisplayPassword = "DISPLAY_PASSWORD"
 }
+
+const STORAGE_KEY = "password";
 
 export const computePassword = createSelector(
     (state: State) => state.generated,
@@ -77,6 +80,7 @@ export const changePassword = (password: string, id: string) => async (dispatch:
             generated
         }
     };
+    localStorage.setItem(STORAGE_KEY, password);
     dispatch(nextResult);
 };
 
@@ -147,8 +151,9 @@ export interface State {
 
 export async function makeStore() {
     const waitRanges = await ranges;
+    const password = _.defaultTo(localStorage.getItem(STORAGE_KEY), "");
     const initial: State = {
-        password: "",
+        password,
         passwordId: "",
         generated: bigInt.zero,
         ranges: waitRanges,
