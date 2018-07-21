@@ -79,14 +79,16 @@ function PasswordHasher(props: PasswordProps) {
             <SelectField value={props.selectedRange} floatingLabelText="Output Type" onChange={_.rearg(props.selectRange, [2]) as any}>
                 {selectOptions}
             </SelectField>
+            <div id="button-controls">
+                <div className="output-button">
+                    <DumbTypeChecker fullWidth id="copy-password" primary data-clipboard-text={props.output} label="Copy to Clipboard" />
+                </div>
+                <div className="output-button">
+                    <RaisedButton fullWidth secondary label={passMess} onClick={props.showHidePassword} />
+                </div>
+            </div>
             <div id="output">
                 {OutputDisplay("Output", password)}
-                <div className="output-button">
-                    <DumbTypeChecker id="copy-password" primary data-clipboard-text={props.output} label="Clipboard" />
-                </div>
-                <div className="output-button">
-                    <RaisedButton secondary label={passMess} onClick={props.showHidePassword} />
-                </div>
                 {OutputDisplay("Output Size", props.outputSize)}
                 {OutputDisplay("Entropy", props.entropy)}
             </div>

@@ -32,6 +32,23 @@
         font-size: 0.9em;
     }
 
+    #button-controls {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        padding-right: -0.5em;
+        padding-bottom: -0.5em;
+
+        .output-button {
+            font-size: 0.9em;
+            flex: 1 0;
+            min-width: min-content;
+            white-space: nowrap;
+            margin-right: 0.5em;
+            margin-bottom: 0.5em;
+        }
+    }
+
     #output {
         margin-top: 1em;
         display: grid;
@@ -42,14 +59,6 @@
         div.data {
             overflow-wrap: break-word;
             min-width: 0;
-        }
-
-        .output-button {
-            font-size: 0.9em;
-            width: 100%;
-            > div {
-                width: 100%;
-            }
         }
 
         button {

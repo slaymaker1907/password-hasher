@@ -13,7 +13,7 @@ interface ScryptOptions {
 
 export interface Range {
     size: number;
-    name?: string;
+    name: string;
     draw(ind: number): string;
 }
 
@@ -73,7 +73,7 @@ const numberRange: Range = {
     draw: (ind: number) => ind.toString(),
     name: "Numbers"
 };
-const specialRange = new CharRange(33, 127);
+export const specialRange = new CharRange(33, 127);
 const alphaNumRange = combineRanges("Alphanumeric",
     new CharRange(48, 58), new CharRange(65, 91), new CharRange(97, 122));
 export const defaultRange = specialRange;
