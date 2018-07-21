@@ -218,9 +218,14 @@ export interface State {
     };
 }
 
+const persistIdHistorySelector = createSelector([_.property("idHistory")], (idHistory: { [id: string]: IdHistoryValue }) => {
+    const pairs = _.toPairs(idHistory).filter(([, value]) => !_.isEqual(value, defaultIdHistoryValue));
+    return _.fromPairs(pairs);
+});
+
 export const persistSelector = createStructuredSelector({
     password: _.property("password"),
-    idHistory: _.property("idHistory"),
+    idHistory: persistIdHistorySelector,
     selectedRange: _.property("selectedRange.name"),
     sizeLimit: _.property("sizeLimit"),
     passwordId: _.property("passwordId")
