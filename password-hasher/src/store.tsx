@@ -198,7 +198,7 @@ const displayPasswordReducer = filterType(ActionType.DisplayPassword,
         return {
             ...state,
             showPassword: !state.showPassword
-        }
+        };
     });
 
 function composeReducers<S>(...reducers: Reducer<S>[]): Reducer<S> {
@@ -219,11 +219,11 @@ export interface State {
 }
 
 export const persistSelector = createStructuredSelector({
-    password: _.property('password'),
-    idHistory: _.property('idHistory'),
-    selectedRange: _.property('selectedRange.name'),
-    sizeLimit: _.property('sizeLimit'),
-    passwordId: _.property('passwordId')
+    password: _.property("password"),
+    idHistory: _.property("idHistory"),
+    selectedRange: _.property("selectedRange.name"),
+    sizeLimit: _.property("sizeLimit"),
+    passwordId: _.property("passwordId")
 });
 
 export function persistReducer(oldState: State, action: any) {
